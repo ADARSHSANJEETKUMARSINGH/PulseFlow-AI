@@ -1,23 +1,19 @@
-FROM node:18-alpine AS base
+FROM node:18-alpine
 
-FROM base AS deps
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm ci
 
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_PUBLIC_SOCKET_URL="https://pulseflow-backend-532397044665.us-central1.run.app"
+
+# Build the Next.js production bundle
 RUN npm run build
 
-FROM base AS runner
-WORKDIR /app
-ENV NODE_ENV production
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+# Cloud Run requires binding to 0.0.0.0 and defaults to port 8080
 EXPOSE 8080
-ENV PORT 8080
+ENV PORT=8080
+ENV NODE_ENV=production
+ENV HOSTNAME="0.0.0.0"
+
+# Start the combined server
 CMD ["node", "server.js"]

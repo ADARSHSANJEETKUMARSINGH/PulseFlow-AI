@@ -7,7 +7,7 @@ import VirtualQueueCard from './VirtualQueueCard';
 import SmartExitCard from './SmartExitCard';
 import { Activity, Users, Zap, LayoutDashboard } from 'lucide-react';
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:4000';
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || '';
 
 export default function LiveDashboard() {
   const [venueState, setVenueState] = useState(null);
