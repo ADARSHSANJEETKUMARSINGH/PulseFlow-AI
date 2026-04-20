@@ -96,7 +96,7 @@ nextApp.prepare().then(() => {
     });
 
     // Default catch-all Next.js handler
-    app.all('*', (req, res) => {
+    app.use((req, res) => {
         return handle(req, res);
     });
 
