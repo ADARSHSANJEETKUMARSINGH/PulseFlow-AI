@@ -40,7 +40,7 @@ export default function VirtualQueueCard({ zones, apiUrl }) {
             onChange={(e) => setSelectedZone(e.target.value)}
           >
             <option value="">Select a Destination</option>
-            {zones.filter(z => z.status === 'Red' || z.status === 'Yellow').map(z => (
+            {zones.map(z => (
               <option key={z.id} value={z.id}>{z.name} (Wait: {z.waitTimeMin}m)</option>
             ))}
           </select>
